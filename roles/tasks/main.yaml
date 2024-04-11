@@ -1,0 +1,31 @@
+- name: Get token
+  uri:
+    url: https://gitea-gitea.{{ subdomain }}/api/v1/users/{{ user }}/tokens
+    method: POST
+    force_basic_auth: true
+    user: "{{ user }}"
+    password: "{{ password }}"
+    body_format: json
+    status_code: 201
+    body:
+      name: pipelines
+  register: token_response
+
+- name: extract token
+  set_fact:
+    token: "{{ token_response.json.sha1 }}"
+
+- name: create secret
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: basic-user-pass
+        annotations:
+          tekton.dev/docker-0: https://gitea-gitea.{{ sub_domain }}
+      type: kubernetes.io/basic-auth
+      stringData:
+        username: "{{ user }}"
+        password: "{{ token }}"

@@ -1,0 +1,17 @@
+---
+- name: Configure Keycloak with Gitea
+  gather_facts: no
+  hosts: localhost
+  vars:
+    admin_user: gitea-admin
+    admin_password: openshift
+    subdomain: apps.cluster-k8hh2.dynamic.redhatworkshops.io
+  tasks:
+
+    - name: Generate token and secret
+      include_role:
+        name: gitea-token
+      vars:
+        user: "user{{ item }}"
+      with_sequence: 1-{{ users }}
+      ignore_errors: true
