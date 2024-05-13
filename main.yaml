@@ -5,13 +5,14 @@
   vars:
     admin_user: gitea-admin
     admin_password: openshift
-    subdomain: apps.cluster-k8hh2.dynamic.redhatworkshops.io
+    sub_domain: apps.cluster-2trjj.dynamic.redhatworkshops.io
+    users: 5
   tasks:
 
     - name: Generate token and secret
       include_role:
-        name: gitea-token
+        name: create-token
       vars:
         user: "user{{ item }}"
+        user_password: "{{ password }}"
       with_sequence: 1-{{ users }}
-      ignore_errors: true

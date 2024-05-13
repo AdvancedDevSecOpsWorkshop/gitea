@@ -1,14 +1,23 @@
+- name: Gitea API call
+  debug:
+    msg: "Making API call to https://gitea-gitea.{{ sub_domain }}/api/v1/users/{{ user }}/tokens"
+
+- name: Password
+  debug:
+    msg: "{{ user_password }}"
+
 - name: Get token
   uri:
-    url: https://gitea-gitea.{{ subdomain }}/api/v1/users/{{ user }}/tokens
+    url: https://gitea-gitea.{{ sub_domain }}/api/v1/users/{{ user }}/tokens
     method: POST
     force_basic_auth: true
     user: "{{ user }}"
-    password: "{{ password }}"
+    password: "{{ user_password }}"
     body_format: json
     status_code: 201
     body:
-      name: pipelines
+      # Use random token generator since gitea doesn't like multiple tokens with same name
+      name: "{{ 99999999 | random | to_uuid }}"
   register: token_response
 
 - name: extract token
@@ -22,7 +31,8 @@
       apiVersion: v1
       kind: Secret
       metadata:
-        name: basic-user-pass
+        name: gitea-token
+        namespace: "{{ user }}-cicd"
         annotations:
           tekton.dev/docker-0: https://gitea-gitea.{{ sub_domain }}
       type: kubernetes.io/basic-auth
