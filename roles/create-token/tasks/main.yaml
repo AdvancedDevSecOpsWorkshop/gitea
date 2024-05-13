@@ -2,10 +2,6 @@
   debug:
     msg: "Making API call to https://gitea-gitea.{{ sub_domain }}/api/v1/users/{{ user }}/tokens"
 
-- name: Password
-  debug:
-    msg: "{{ user_password }}"
-
 - name: Get token
   uri:
     url: https://gitea-gitea.{{ sub_domain }}/api/v1/users/{{ user }}/tokens
