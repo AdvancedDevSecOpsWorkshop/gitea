@@ -3,6 +3,7 @@
   gather_facts: no
   hosts: localhost
   vars:
+    ansible_remote_tmp: /runner/.ansible/tmp
     admin_user: gitea-admin
     admin_password: openshift
     sub_domain: apps.cluster-2trjj.dynamic.redhatworkshops.io
