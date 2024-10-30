@@ -14,6 +14,9 @@
     body:
       # Use random token generator since gitea doesn't like multiple tokens with same name
       name: "{{ 99999999 | random | to_uuid }}"
+      scopes: [
+        "repo"
+      ]
   register: token_response
 
 - name: extract token
