@@ -31,8 +31,11 @@
       apiVersion: v1
       kind: Secret
       metadata:
-        name: gitea-pull-token
+        name: gitea
         namespace: "{{ user }}-cicd"
-      type: Opaque
+        annotations:
+          tekton.dev/docker-0: https://gitea-gitea.{{ sub_domain }}
+      type: kubernetes.io/basic-auth
       data:
-        token: "{{ token | b64encode }}"
+        username: "{{ user | b64encode }}"
+        password: "{{ token | b64encode  }}"
