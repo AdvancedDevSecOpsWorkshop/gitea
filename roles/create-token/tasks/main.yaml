@@ -34,7 +34,7 @@
         name: gitea-token
         namespace: "{{ user }}-cicd"
         annotations:
-          tekton.dev/docker-0: https://gitea-gitea.{{ sub_domain }}
+          tekton.dev/git-0: https://gitea-gitea.{{ sub_domain }}
       type: kubernetes.io/basic-auth
       data:
         username: "{{ user | b64encode }}"
