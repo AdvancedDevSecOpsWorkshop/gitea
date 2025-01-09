@@ -31,7 +31,7 @@
       apiVersion: v1
       kind: Secret
       metadata:
-        name: gitea
+        name: gitea-token
         namespace: "{{ user }}-cicd"
         annotations:
           tekton.dev/docker-0: https://gitea-gitea.{{ sub_domain }}
