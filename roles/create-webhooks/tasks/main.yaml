@@ -9,16 +9,8 @@
     #gitea_url: https://gitea-gitea.apps.cluster-bcc29.bcc29.sandbox167.opentlc.com
 
     webhooks:
-      - repo: inventory-quarkus
-        url: https://el-inventory-coolstore-cicd.{{ sub_domain }}
-      - repo: gateway-vertx
-        url: https://el-gateway-coolstore-cicd.{{ sub_domain }}
-      - repo: catalog-spring-boot
-        url: https://el-catalog-coolstore-cicd.{{ sub_domain }}
-      - repo: web-nodejs
-        url: https://el-web-coolstore-cicd.{{ sub_domain }}
-      - repo: coolstore
-        url: https://openshift-gitops-server-openshift-gitops.{{ sub_domain }}/api/webhook
+      - repo: gitops
+        url: https://argocd-server-gitops.{{ sub_domain }}/api/webhook
 
   tasks:
 
@@ -46,14 +38,14 @@
         status_code: [201, 400]
       with_items: "{{ webhooks }}"
 
-    - name:  Set default branch of coolstore repo
-      uri:
-        url: "{{ gitea_url}}/api/v1/repos/{{ gitea_username }}/coolstore"
-        method: PATCH
-        validate_certs: no
-        headers:
-          authorization: "{{ authorization }}"
-        body_format: json
-        body:
-          default_branch: "main"
-        status_code: [200]
+    # - name:  Set default branch of coolstore repo
+    #   uri:
+    #     url: "{{ gitea_url}}/api/v1/repos/{{ gitea_username }}/coolstore"
+    #     method: PATCH
+    #     validate_certs: no
+    #     headers:
+    #       authorization: "{{ authorization }}"
+    #     body_format: json
+    #     body:
+    #       default_branch: "main"
+    #     status_code: [200]
